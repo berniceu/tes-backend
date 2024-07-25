@@ -4,7 +4,7 @@ from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from models.serializers import UserSerializer
 
 @api_view(["POST"])

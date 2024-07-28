@@ -1,3 +1,6 @@
+from django.utils import timezone
+import random
+import string
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -5,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
+from authentication.emails.emails import confirm_reset_email, reset_email_password
+from models.models import ResetPassword
 
 @api_view(["POST"])
 def password_reset_request(request):
@@ -15,14 +20,14 @@ def password_reset_request(request):
     
         try:
             user = User.objects.get(email=email)
-            token = default_token_generator.make_token(user)
-            send_mail(
-            'Password Reset Request',
-            f'Here is your password reset token: {token}\nUser ID: {user.id}\nPlease use this token and user ID on the password reset form on our website.',
-            'honorineuwituze896.com',
-            [email],
-            fail_silently=False,
-        )
+            code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            ResetPassword.objects.create(
+                email=email,
+                code=code,
+                expires=timezone.now() + timezone.timedelta(minutes=5),
+            )
+            # Send the email with the code to the user's email address
+            reset_email_password(email, user.first_name, code)
             return Response({"message": "Password reset instructions sent to email"}, status=status.HTTP_200_OK)
         
         except User.DoesNotExist:
@@ -36,21 +41,30 @@ def password_reset_request(request):
 
 @api_view(["POST"])
 def password_reset_confirm(request):
-    token = request.data.get("token")
-    uid = request.data.get("uid")
+    code = request.data.get("code")
+    email = request.data.get("email")
     new_password = request.data.get("new_password")
 
-    if not token or not uid or not new_password:
-        return Response({"error": "Token, UID, and new password are required"}, status=status.HTTP_400_BAD_REQUEST)
+    if not code or not new_password:
+        return Response({"error": "Code and new password are required"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        user = User.objects.get(pk=uid)
-        if default_token_generator.check_token(user, token):
-            user.password = make_password(new_password)
-            user.save()
-            return Response({"message": "Password has been reset successfully"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Invalid token or user ID"}, status=status.HTTP_400_BAD_REQUEST)
+        reset_password_entry = ResetPassword.objects.get(email=email, code=code)
+
+        if timezone.now() > reset_password_entry.expires:
+            return Response({"error": "The reset code has expired"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.get(email=email)
+        user.password = make_password(new_password)
+        user.save()
+
+        if user is not None:
+            try:
+                user = User.objects.get(email=email)
+                confirm_reset_email(email, user.first_name)
+            except Exception as e:
+                    return Response({"error": "An error occurred while sending confirmation email"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"success": "Your password was reset successfully."}, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response({"error": "Invalid user ID"}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:

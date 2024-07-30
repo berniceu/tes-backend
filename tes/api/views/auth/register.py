@@ -18,11 +18,12 @@ def register_api(request):
     if not email or not full_name or not password:
         return Response({"error": "Email, password, and full name must not be empty"}, status=status.HTTP_400_BAD_REQUEST)
 
-    try:
+    if full_name:
         parts = full_name.split()
-        first_name = parts[0] if len(parts) > 0 else ''
+        first_name = parts[0]
         last_name = parts[1] if len(parts) > 1 else ''
 
+    try:
         validate_email(email)
         if User.objects.filter(email=email).exists():
             return Response({"error": "User with the same email already exists"}, status=status.HTTP_409_CONFLICT)

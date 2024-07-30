@@ -17,7 +17,7 @@ def posts_list(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def new_post(request):
     if request.method == 'POST':
         post_data = {

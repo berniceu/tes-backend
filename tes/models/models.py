@@ -38,7 +38,7 @@ class ResetPasswordConfirmation(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=255)
-    # images = models.ImageField(upload_to='/course_images', editable=True)
+    # images = models.ImageField(upload_to='course_images/', editable=True, null=True)
     description = models.CharField(max_length=255)
     source_link = models.URLField(blank=True, null=True, max_length=200)
     
@@ -57,7 +57,7 @@ class Forum(models.Model):
 class Post(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
-    # image = models.ImageField(upload_to='/post_images', editable=True, null=True)
+    # image = models.ImageField(upload_to='post_images/', editable=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

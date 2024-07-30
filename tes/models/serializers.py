@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from models.models import Comment, Course, Forum, Post
+from models.models import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:

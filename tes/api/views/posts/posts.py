@@ -13,7 +13,16 @@ def posts_list(request):
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response({"posts": serializer.data}, status=status.HTTP_200_OK)
-    
+
+@api_view(['GET'])
+def post_detail(request, id):
+    try:
+        post = Post.objects.get(pk=id)
+    except Post.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = PostSerializer(post)
+    return Response({"post": serializer.data}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

@@ -37,13 +37,25 @@ class ResetPasswordConfirmation(models.Model):
 
 
 class Course(models.Model):
+    LEVEL_CHOICES = [
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+    ]
     name = models.CharField(max_length=255)
     # images = models.ImageField(upload_to='course_images/', editable=True, null=True)
-    description = models.CharField(max_length=255)
+    description = models.TextField()
     source_link = models.URLField(blank=True, null=True, max_length=200)
+    level = models.CharField(max_length=20, choices=LEVEL_CHOICES, default='beginner')
+    hours = models.PositiveIntegerField(default=0)
+    projects = models.PositiveIntegerField(default=0)
+    lessons = models.PositiveIntegerField(default=0)
+    exercises = models.PositiveIntegerField(default=0)
+    skills = models.TextField(null=True, blank=True)
     
     def __str__(self):
         return str(self.name)
+    
     
 class Forum(models.Model):
     topic = models.CharField(max_length=255)
@@ -58,7 +70,7 @@ class Post(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
     # image = models.ImageField(upload_to='post_images/', editable=True, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

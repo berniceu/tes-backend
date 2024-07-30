@@ -2,17 +2,27 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from models.models import Course
-from models.serializers import CourseSerializer
+from models.models import *
+from models.serializers import *
 
 
 @api_view(['GET'])
 def courses_list(request):
-    if request.method == 'GET':
-        courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many=True)
-        return Response({"courses": serializer.data}, status=status.HTTP_200_OK)
+        if request.method == 'GET':
+            courses = Course.objects.all()
+            serializer = CourseSerializer(courses, many=True)
+            return Response({"courses": serializer.data}, status=status.HTTP_200_OK)
     
+@api_view(['GET'])
+def course_detail(request, id):
+    try:
+        course = Course.objects.get(pk=id)
+    except Course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = CourseSerializer(course)
+    return Response({"course": serializer.data}, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
@@ -22,7 +32,14 @@ def new_course(request):
         course_data = {
             'name': request.data.get('name'),
             'description': request.data.get('description'),
-            'source_link': request.data.get('source_link')
+            'source_link': request.data.get('source_link'),
+            'level': request.data.get('level'),
+            'hours': request.data.get('hours'),
+            'lessons': request.data.get('lessons'),
+            'exercises': request.data.get('exercises'),
+            'projects': request.data.get('projects'),
+            'skills': request.data.get('skills', []),
+            
         }
 
         serializer = CourseSerializer(data=course_data)

@@ -18,12 +18,12 @@ def comments_list(request, post_id):
 
 @api_view(['POST'])
 # @permission_classes([IsEmployer, IsAuthenticated])
-def new_comment(request):
+def new_comment(request, post_id):
     if request.method == 'POST':
         comment_data = {
             'comment': request.data.get('comment'),
             'created_by': request.user.id,
-            'post': request.data.get('post_id')
+            'post': post_id
         }
 
         serializer = CommentSerializer(data=comment_data)

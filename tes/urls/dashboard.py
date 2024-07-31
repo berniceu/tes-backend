@@ -5,12 +5,12 @@ from api.views.posts.posts import posts_list, new_post, post_detail
 
 
 urlpatterns = [
-    path('comments/', comments_list, name='comments_list'),
+    path('posts/<int:post_id>/comments/', comments_list, name='comments_list'),
     path('courses/', courses_list, name='courses_list'),
     path('courses/<int:id>/', course_detail, name='course_detail'),
     path('posts/', posts_list, name='posts_list'),
     path('posts/<int:id>/', post_detail, name='post_detail'),
     path('posts/new_post/', new_post, name='new_post'),
     path('posts/new_course', new_course, name='new_course'),
-    path('posts/new_comment', new_comment, name='new_comment'),
+    path('posts/<int:post_id>/new_comment', new_comment, name='new_comment'),
 ]

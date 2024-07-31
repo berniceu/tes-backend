@@ -7,11 +7,12 @@ from models.serializers import CommentSerializer
 
 
 @api_view(['GET'])
-def comments_list(request):
+def comments_list(request, post_id):
     if request.method == 'GET':
-        comments = Comment.objects.all()
+        comments = Comment.objects.filter(post_id=post_id)
         serializer = CommentSerializer(comments, many=True)
-        return Response({"comments": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     
 
 

@@ -47,6 +47,7 @@ def new_course(request):
             serializer.save()
             return Response({"course": serializer.data}, status=status.HTTP_201_CREATED)
         else:
+            print("Validation errors:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"error": "Only POST method is allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

@@ -53,7 +53,7 @@ This is the backend for the TechEmpower Sisters e-learning platform developed us
 ## Hosted Version
 
 The hosted version of the e-learning platform can be accessed at: [tes-backend](https://tes-backend.onrender.com/api)
-The hosted frontend version: [tes-frontend](tes-ten-rho.vercel.app)
+The hosted frontend version: [tes-frontend](https://tes-ten-rho.vercel.app/)
 
 ## API Endpoints
 

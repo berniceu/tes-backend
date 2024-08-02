@@ -35,22 +35,6 @@ This is the backend for an e-learning platform developed using Django. It provid
     pip install -r requirements.txt
     ```
 
-4. **Set up the database**
-
-    Update your database configuration in `settings.py`.
-
-    ```python
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'your_db_name',
-            'USER': 'your_db_user',
-            'PASSWORD': 'your_db_password',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }
-    ```
 
     Then apply the migrations:
 

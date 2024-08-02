@@ -3,7 +3,7 @@
 
 ## Description
 
-This is the backend for an e-learning platform developed using Django. It provides APIs for managing courses, posts, and comments, along with user authentication (signup and login).
+This is the backend for the TechEmpower Sisters e-learning platform developed using Django. It provides APIs for managing courses, posts, and comments, along with user authentication (signup and login).
 
 ## Setup Locally
 
@@ -52,7 +52,8 @@ This is the backend for an e-learning platform developed using Django. It provid
 
 ## Hosted Version
 
-The hosted version of the e-learning platform can be accessed at: [https://your-hosted-app.com](https://your-hosted-app.com)
+The hosted version of the e-learning platform can be accessed at: [tes-backend](https://tes-backend.onrender.com/api)
+The hosted frontend version: [tes-frontend](tes-ten-rho.vercel.app)
 
 ## API Endpoints
 

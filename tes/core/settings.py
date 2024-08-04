@@ -33,7 +33,7 @@ PRODUCTION = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://tes-ten-rho.vercel.app', 'tes-backend.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://tes-ten-rho.vercel.app', 'https://tes-backend.onrender.com']
 
 
 # Application definition
@@ -101,12 +101,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://tes-ten-rho.vercel.app',
-    'http://localhost:3001'
 ]
 
 CORS_ALLOW_HEADERS = [

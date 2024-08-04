@@ -33,7 +33,7 @@ PRODUCTION = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://tes-ten-rho.vercel.app', 'https://tes-backend.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'tes-backend.onrender.com']
 
 
 # Application definition
